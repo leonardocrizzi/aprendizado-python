@@ -1,6 +1,4 @@
-try:
-    nome = input("Digite o nome: ")
-    
+def valida_nome(nome):
     # Verifica se o nome é vazio 
     if nome.strip() == "":
         raise Exception("O nome não pode ser vazio!")
@@ -8,61 +6,57 @@ try:
     # retira o espaço da string e verifica se ela contém apenas letras
     if not nome.replace(" ", "").isalpha():
         raise Exception("O nome deve conter apenas letras!")
+    
+def valida_nota(entrada):
+    if entrada.strip() == "":
+        raise Exception("A nota não pode ser vazia!")
+    
+    if entrada.isalpha():
+        raise Exception("Digite um valor válido!")
+    
+    nota = float(entrada)
+
+    if nota < 0 or nota > 10:
+        raise Exception("Digite um valor entre 0 e 10!")
+    
+    return nota
+    
+def media(n1, n2, n3, nome):
+
+    calculo = (valida_nota(n1) + valida_nota(n2) + valida_nota(n3)) / 3
+
+    if calculo < 7:
+        print("-"*30)
+        print(f"| {'FICHA ESCOLAR':<{30-4}} |")
+        print("-"*30)
+        print(f"| {f'Nome: {nome}':<{30-4}} |")
+        print(f"| {'Situação: REPROVADO!':<{30-4}} |")
+        print(f"| {f'Média: {calculo:.1f}':<{30-4}} |")
+        print("-"*30)
+    else:
+        print("-"*30)
+        print(f"| {'FICHA ESCOLAR':<{30-4}} |")
+        print("-"*30)
+        print(f"| {f'Nome: {nome}':<{30-4}} |")
+        print(f"| {'Situação: APROVADO!':<{30-4}} |")
+        print(f"| {f'Média: {calculo:.1f}':<{30-4}} |")
+        print("-"*30)
+
+try:
+    nome = input("Digite o nome: ")
+    valida_nome(nome)
 
     entrada1 = input("Digite a primeira nota: ")
-
-    if entrada1.strip() == "":
-        raise Exception("A nota não pode ser vazia!")
-    
-    if entrada1.isalpha():
-        raise Exception("Digite um valor válido!")
-    
-    n1 = float(entrada1)
-
-    if n1 < 0 or n1 > 10:
-        raise Exception("Digite um valor entre 0 e 10!")
+    valida_nota(entrada1)
     
     entrada2 = input("Digite a segunda nota: ")
-
-    if entrada2.strip() == "":
-        raise Exception("A nota não pode ser vazia!")
-
-    if entrada2.isalpha():
-        raise Exception("Digite um valor válido!")
-
-    n2 = float(entrada2)
-
-    if n2 < 0 or n2 > 10:
-        raise Exception("Digite um valor entre 0 e 10!")
+    valida_nota(entrada2)
 
     entrada3 = input("Digite a terceira nota: ")
-
-    if entrada3.strip() == "":
-        raise Exception("A nota não pode ser vazia!")
-
-    if entrada3.isalpha():
-        raise Exception("Digite um valor válido!")
-
-    n3 = float(entrada3)
-
-    if n3 < 0 or n3 > 10:
-        raise Exception("Digite um valor entre 0 e 10!")
+    valida_nota(entrada3)
 
 except Exception as e:
     # Printa a mensagem do raise
     print(e)
 else:
-    media = (n1 + n2 + n3) / 3
-
-    if media < 7:
-        print("-"*30)
-        print(f"| {f'Nome: {nome}':<{30-4}} |")
-        print(f"| {'Situação: REPROVADO!':<{30-4}} |")
-        print(f"| {f'Média: {media:.1f}':<{30-4}} |")
-        print("-"*30)
-    else:
-        print("-"*30)
-        print(f"| {f'Nome: {nome}':<{30-4}} |")
-        print(f"| {'Situação: APROVADO!':<{30-4}} |")
-        print(f"| {f'Média: {media:.1f}':<{30-4}} |")
-        print("-"*30)
+    media(entrada1, entrada2, entrada3, nome)    
