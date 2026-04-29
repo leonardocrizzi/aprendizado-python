@@ -21,42 +21,50 @@ def valida_nota(entrada):
     
     return nota
     
-def media(n1, n2, n3, nome):
-
-    calculo = (valida_nota(n1) + valida_nota(n2) + valida_nota(n3)) / 3
-
-    if calculo < 7:
-        print("-"*30)
-        print(f"| {'FICHA ESCOLAR':<{30-4}} |")
-        print("-"*30)
-        print(f"| {f'Nome: {nome}':<{30-4}} |")
-        print(f"| {'Situação: REPROVADO!':<{30-4}} |")
-        print(f"| {f'Média: {calculo:.1f}':<{30-4}} |")
-        print("-"*30)
-    else:
-        print("-"*30)
-        print(f"| {'FICHA ESCOLAR':<{30-4}} |")
-        print("-"*30)
-        print(f"| {f'Nome: {nome}':<{30-4}} |")
-        print(f"| {'Situação: APROVADO!':<{30-4}} |")
-        print(f"| {f'Média: {calculo:.1f}':<{30-4}} |")
-        print("-"*30)
+def media(n1, n2, n3):
+    calculo = (n1 + n2 + n3) / 3
+    return f"{calculo:.2f}"
 
 try:
-    nome = input("Digite o nome: ")
-    valida_nome(nome)
+    lista_alunos = []
+    while True:
+        aluno = {}
+        lista_notas = []
 
-    entrada1 = input("Digite a primeira nota: ")
-    valida_nota(entrada1)
+        nome_aluno = input("Digite o nome: ")
+        valida_nome(nome_aluno)
+        aluno["nome"] = nome_aluno
+
+        for trimestre in range(1, 4):
+            print(f"NOTAS DO {trimestre}º TRIMESTRE")
+            nota1 = input("Digite a 1ª nota: ")
+            valida_nota(nota1)
+            nota2 = input("Digite a 2ª nota: ")
+            valida_nota(nota2)
+            nota3 = input("Digite a 3ª nota: ")
+            valida_nota(nota3)
+            print("-"*20)
+
+            media_trimestre = media(valida_nota(nota1), valida_nota(nota2), valida_nota(nota3))
+            lista_notas.append({"trimestre": trimestre, "notas": [valida_nota(nota1), valida_nota(nota2), valida_nota(nota3)], "media": media_trimestre})
+            
+        aluno["notas"] = lista_notas
+        lista_alunos.append(aluno)
+        
+        try:
+            fim = input("Deseja continuar cadastrando alunos?(S/N): ")
+
+            if fim == "S":
+                continue
+            elif fim == "N":
+                break
+            else:
+                raise Exception("Digite uma opção válida!")
+        except Exception as e:
+            print(e)
     
-    entrada2 = input("Digite a segunda nota: ")
-    valida_nota(entrada2)
-
-    entrada3 = input("Digite a terceira nota: ")
-    valida_nota(entrada3)
+    print(lista_alunos)
 
 except Exception as e:
     # Printa a mensagem do raise
-    print(e)
-else:
-    media(entrada1, entrada2, entrada3, nome)    
+    print(e)  
